@@ -1,4 +1,4 @@
-const wordE1 = document.getElementById('word');
+let wordE1 = document.getElementById('word');
 const wrongLetterE1 = document.getElementById('wrong-letter');
 const playAgainBtn = document.getElementById('play-button');
 const popup = document.getElementById('popup-container');
@@ -30,6 +30,23 @@ const wrongLetters = [];
 function getHint() {
     // alert(Hintwords[selectedWord]);
     hintshowmsg.innerHTML = Hintwords[selectedWord];
+    console.log(selectedWord[0]);
+    var text =`
+    ${selectedWord
+    .split('')
+    .map(
+        letter =>`
+        <span class="letter1">
+        ${correctLetters.includes(letter) ? letter : ''}
+        </span>
+        `
+    )
+    .join('')}
+    `;
+    text ? wordE1.children[0].innerHTML = selectedWord[0] : wordE1.innerHTML = text;
+    // console.log(a)
+    // children[0].innerHTML = selectedWord[0];
+    // wordE1.innerHTML = a;
 }
 function displayWord(){
     var text =`
@@ -103,11 +120,11 @@ function ShowNotification(){
 window.addEventListener('keydown',e =>{
     if(e.keyCode >= 65 && e.keyCode <= 90){
         const letter = e.key;
-
+        getHint()
         if(selectedWord.includes(letter)){
             if(!correctLetters.includes(letter)){
                 correctLetters.push(letter);
-
+                // getHint();
                 displayWord();
             }else{
                 ShowNotification();
@@ -115,7 +132,6 @@ window.addEventListener('keydown',e =>{
         }else{
             if(!wrongLetters.includes(letter)){
                 wrongLetters.push(letter);
-
                 updateWrongLetterE1();
             }else{
                 ShowNotification();
